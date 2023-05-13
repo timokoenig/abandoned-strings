@@ -43,7 +43,8 @@ func contentsOfFile(_ filePath: String) -> String {
     }
     catch { 
         print("cannot read file!!!")
-        exit(1)
+        // exit(1)
+        return ""
     }
 }
 
@@ -85,8 +86,15 @@ func findStringIdentifiersIn(_ stringsFile: String, abandonedBySourceCode source
         let quotedIdentifier = "\"\(identifier)\""
         let quotedIdentifierForStoryboard = "\"@\(identifier)\""
         let signalQuotedIdentifierForJs = "'\(identifier)'"
-        let isAbandoned = (sourceCode.contains(quotedIdentifier) == false && sourceCode.contains(quotedIdentifierForStoryboard) == false &&
-            sourceCode.contains(signalQuotedIdentifierForJs) == false)
+        let localizedIdentifier = "R.localized.\(identifier)"
+        let stringKeys = "R.stringKey.\(identifier)"
+        let isAbandoned = (
+            sourceCode.contains(localizedIdentifier) == false &&
+            sourceCode.contains(stringKeys) == false &&
+            sourceCode.contains(quotedIdentifier) == false &&
+            sourceCode.contains(quotedIdentifierForStoryboard) == false &&
+            sourceCode.contains(signalQuotedIdentifierForJs) == false
+        )
         return isAbandoned
     }
 }
